@@ -48,9 +48,11 @@ if (NOT dawn_POPULATED)
 	set(DAWN_ENABLE_VULKAN ${USE_VULKAN})
 	set(TINT_BUILD_SPV_READER OFF)
 
+	# Used for reflection
+	set(TINT_BUILD_TINT ON)
+
 	# Disable unneeded parts
 	set(DAWN_BUILD_SAMPLES OFF)
-	set(TINT_BUILD_TINT OFF)
 	set(TINT_BUILD_SAMPLES OFF)
 	set(TINT_BUILD_DOCS OFF)
 	set(TINT_BUILD_TESTS OFF)
