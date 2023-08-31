@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0...3.24 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.13)
 project(webgpu-backend-dawn VERSION 1.0.0)
 
 message(STATUS "Using Dawn backend for WebGPU")
@@ -7,8 +7,13 @@ add_library(webgpu INTERFACE)
 
 if (EMSCRIPTEN)
 
+	include(cmake/FetchTint.cmake)
+
+	target_link_libraries(webgpu INTERFACE tint_api tint_lang_wgsl_reader)
 	target_include_directories(webgpu INTERFACE
 		"${CMAKE_CURRENT_SOURCE_DIR}/include-emscripten"
+		"${CMAKE_BINARY_DIR}/_deps/tint-src/include"
+		"${CMAKE_BINARY_DIR}/_deps/tint-src"
 	)
 
 	# This is used to advertise the flavor of WebGPU that this zip provides
@@ -18,7 +23,7 @@ else (EMSCRIPTEN)
 
 	include(cmake/FetchDawn.cmake)
 
-	target_link_libraries(webgpu INTERFACE webgpu_dawn)
+	target_link_libraries(webgpu INTERFACE webgpu_dawn libtint)
 	target_include_directories(webgpu INTERFACE
 		"${CMAKE_CURRENT_SOURCE_DIR}/include"
 		"${CMAKE_BINARY_DIR}/_deps/dawn-src/include"

@@ -209,5 +209,17 @@ class Var:
     def __radd__(self, text):
         return text + self.name
 
+class Str:
+    """
+    Mock Str class, that the content of DEPS files assume to exist when they
+    are exec-ed.
+    """
+    def __init__(self, name):
+        self.name = name
+    def __add__(self, text):
+        return self.name + text
+    def __radd__(self, text):
+        return text + self.name
+
 if __name__ == "__main__":
     main(parser.parse_args())
