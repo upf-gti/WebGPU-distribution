@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.13)
 project(webgpu-backend-dawn VERSION 1.0.0)
 
-message(STATUS "Using Dawn backend for WebGPU")
-
 add_library(webgpu INTERFACE)
 
 if (EMSCRIPTEN)
+
+	message(STATUS "Downloading Tint...")
 
 	include(cmake/FetchTint.cmake)
 
@@ -20,6 +20,8 @@ if (EMSCRIPTEN)
 	target_compile_definitions(webgpu INTERFACE WEBGPU_BACKEND_EMSCRIPTEN)
 
 else (EMSCRIPTEN)
+
+	message(STATUS "Using Dawn backend for WebGPU")
 
 	include(cmake/FetchDawn.cmake)
 

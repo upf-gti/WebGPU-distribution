@@ -28,6 +28,14 @@ if (NOT tint_POPULATED)
 		WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/_deps/tint-src"
 	)
 
+	configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tools/web_build_fix.patch" "${CMAKE_BINARY_DIR}/_deps/tint-src/web_build_fix.patch" COPYONLY)
+
+	message(STATUS "Applying Tint patch...")
+
+	execute_process(
+		COMMAND cmd /C cd ${CMAKE_BINARY_DIR}/_deps/tint-src && git apply web_build_fix.patch
+	)
+
 	# Disable unneeded parts
 	set(TINT_BUILD_SAMPLES OFF)
 	set(TINT_BUILD_DOCS OFF)
