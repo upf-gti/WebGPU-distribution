@@ -9,7 +9,7 @@ if (EMSCRIPTEN)
 
 	include(cmake/FetchTint.cmake)
 
-	target_link_libraries(webgpu INTERFACE tint_api tint_lang_wgsl_reader)
+	target_link_libraries(webgpu INTERFACE tint_lang_wgsl_reader)
 	target_include_directories(webgpu INTERFACE
 		"${CMAKE_CURRENT_SOURCE_DIR}/include-emscripten"
 		"${CMAKE_BINARY_DIR}/_deps/tint-src/include"
