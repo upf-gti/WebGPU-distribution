@@ -12,8 +12,9 @@ FetchContent_Declare(
 	DOWNLOAD_COMMAND
 		cd ${FETCHCONTENT_BASE_DIR}/tint-src &&
 		git init &&
-		git pull --depth=1 https://dawn.googlesource.com/tint &&
-		git reset --hard FETCH_HEAD
+		git remote add origin https://dawn.googlesource.com/tint &&
+		git fetch --depth 1 origin 5de73c342d009a9714e7b64f5d1c12be24da74d5 &&
+		git checkout FETCH_HEAD
 )
 
 FetchContent_GetProperties(tint)
