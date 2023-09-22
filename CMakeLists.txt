@@ -22,6 +22,7 @@ if (EMSCRIPTEN)
 else (EMSCRIPTEN)
 
 	message(STATUS "Using Dawn backend for WebGPU")
+	message(STATUS "Downloading Dawn...")
 
 	include(cmake/FetchDawn.cmake)
 
