@@ -31,21 +31,27 @@ if (NOT dawn_POPULATED)
 		WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/_deps/dawn-src"
 	)
 
-	# A more minimalistic choice of backand than Dawn's default
 	if (APPLE)
-		set(USE_VULKAN OFF)
 		set(USE_METAL ON)
+	elseif (WIN32)
+		set(USE_DX12 ON)
+		target_compile_definitions(webgpu INTERFACE BACKEND_DX12)
 	else()
 		set(USE_VULKAN ON)
-		set(USE_METAL OFF)
+		target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
 	endif()
-	set(DAWN_ENABLE_D3D11 OFF)
-	set(DAWN_ENABLE_D3D12 OFF)
+
+	# set(USE_VULKAN ON)
+	# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
+
 	set(DAWN_ENABLE_METAL ${USE_METAL})
+	set(DAWN_ENABLE_D3D12 ${USE_DX12})
+	set(DAWN_ENABLE_VULKAN ${USE_VULKAN})
+
+	set(DAWN_ENABLE_D3D11 OFF)
 	set(DAWN_ENABLE_NULL OFF)
 	set(DAWN_ENABLE_DESKTOP_GL OFF)
 	set(DAWN_ENABLE_OPENGLES OFF)
-	set(DAWN_ENABLE_VULKAN ${USE_VULKAN})
 
 	# Used for reflection
 	set(TINT_BUILD_TINT ON)
@@ -78,6 +84,7 @@ set(AllDawnTargets
 	dawn_proc
 	dawn_utils
 	dawn_wire
+	dawn_static_deps
 	dawncpp
 	dawncpp_headers
 	emscripten_bits_gen
@@ -96,6 +103,7 @@ set(AllDawnTargets
 set(AllGlfwTargets
 	glfw
 	update_mappings
+	uninstall
 )
 
 foreach (Target ${AllDawnTargets})
