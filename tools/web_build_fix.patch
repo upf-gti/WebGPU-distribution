@@ -1,15 +1,15 @@
 diff --git a/src/tint/lang/wgsl/reader/BUILD.cmake b/src/tint/lang/wgsl/reader/BUILD.cmake
-index 9848c4b..79db1a9 100644
+index 2d94eb5..eac98d1 100644
 --- a/src/tint/lang/wgsl/reader/BUILD.cmake
 +++ b/src/tint/lang/wgsl/reader/BUILD.cmake
-@@ -42,6 +42,7 @@ tint_target_add_dependencies(tint_lang_wgsl_reader lib
-   tint_lang_wgsl_ast
+@@ -45,6 +45,7 @@ tint_target_add_dependencies(tint_lang_wgsl_reader lib
    tint_lang_wgsl_program
+   tint_lang_wgsl_reader_lower
    tint_lang_wgsl_reader_parser
 +  tint_lang_wgsl_inspector
+   tint_lang_wgsl_reader_program_to_ir
    tint_lang_wgsl_resolver
    tint_lang_wgsl_sem
-   tint_utils_containers
 diff --git a/third_party/CMakeLists.txt b/third_party/CMakeLists.txt
 index e8b1165..88af692 100644
 --- a/third_party/CMakeLists.txt
