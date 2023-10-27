@@ -32,15 +32,19 @@ if (NOT dawn_POPULATED)
 	if (APPLE)
 		set(USE_METAL ON)
 	elseif (WIN32)
-		# set(USE_DX12 ON)
+		set(USE_DX12 ON)
 		# target_compile_definitions(webgpu INTERFACE BACKEND_DX12)
-	# else()
-	# 	set(USE_VULKAN ON)
-	# 	target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
+		set(TINT_BUILD_HLSL_WRITER ON)
+
+		set(USE_VULKAN ON)
+		# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
+	else()
+		set(USE_VULKAN ON)
+		# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
 	endif()
 
-	set(USE_VULKAN ON)
-	target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
+	# set(USE_VULKAN ON)
+	# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
 
 	set(DAWN_ENABLE_METAL ${USE_METAL})
 	set(DAWN_ENABLE_D3D12 ${USE_DX12})
@@ -53,6 +57,7 @@ if (NOT dawn_POPULATED)
 
 	# Used for reflection
 	set(TINT_BUILD_TINT ON)
+	set(TINT_BUILD_HLSL_WRITER ON)
 
 	# Disable unneeded parts
 	set(DAWN_BUILD_SAMPLES OFF)
