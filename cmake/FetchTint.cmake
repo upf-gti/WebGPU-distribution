@@ -13,7 +13,7 @@ FetchContent_Declare(
 		cd ${FETCHCONTENT_BASE_DIR}/tint-src &&
 		git init &&
 		git remote add origin https://dawn.googlesource.com/tint &&
-		git fetch --depth 1 origin 941e2eb2b45a4c390cdf077f6ed1f272dc235d5f &&
+		git fetch --depth 1 origin 89e2cdf1e91c6edae5061cc625c67c167bf768e9 &&
 		git checkout FETCH_HEAD
 )
 
@@ -58,5 +58,8 @@ if (NOT tint_POPULATED)
 	set(TINT_BUILD_SPV_WRITER OFF)
 	set(TINT_BUILD_CMD_TOOLS OFF)
 
-	add_subdirectory(${tint_SOURCE_DIR} ${tint_BINARY_DIR})
+	if (EMSCRIPTEN)
+		add_subdirectory(${tint_SOURCE_DIR} ${tint_BINARY_DIR})
+	endif()
+
 endif ()

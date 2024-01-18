@@ -20,6 +20,7 @@ FetchContent_Declare(
 )
 
 FetchContent_GetProperties(dawn)
+
 if (NOT dawn_POPULATED)
 	FetchContent_Populate(dawn)
 
@@ -54,6 +55,8 @@ if (NOT dawn_POPULATED)
 	set(DAWN_ENABLE_NULL OFF)
 	set(DAWN_ENABLE_DESKTOP_GL OFF)
 	set(DAWN_ENABLE_OPENGLES OFF)
+
+	set(DAWN_USE_GLFW OFF)
 
 	# Used for reflection
 	set(TINT_BUILD_TINT ON)
