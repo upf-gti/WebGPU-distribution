@@ -43,7 +43,7 @@ else (EMSCRIPTEN)
 
 		FetchContent_Declare(
 			dawn
-			URL https://github.com/upf-gti/dawn/releases/download/v1.0/dawn_static.7z
+			URL https://github.com/upf-gti/dawn/releases/download/v1.1/dawn_static.7z
 			# DOWNLOAD_DIR ${WGPU_DIR_LIBS}/dawn_static
 		)
 
@@ -56,6 +56,8 @@ else (EMSCRIPTEN)
 			"${CMAKE_BINARY_DIR}/_deps/tint-src/include"
 			"${CMAKE_BINARY_DIR}/_deps/tint-src"
 		)
+
+		# target_link_libraries(webgpu INTERFACE dxguid.lib)
 
 		target_link_libraries(webgpu INTERFACE
 			debug "${CMAKE_BINARY_DIR}/_deps/dawn-src/lib/dawn_static_debug.lib"

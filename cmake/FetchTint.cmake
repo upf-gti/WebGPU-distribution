@@ -13,7 +13,7 @@ FetchContent_Declare(
 		cd ${FETCHCONTENT_BASE_DIR}/tint-src &&
 		git init &&
 		git remote add origin https://dawn.googlesource.com/tint &&
-		git fetch --depth 1 origin 89e2cdf1e91c6edae5061cc625c67c167bf768e9 &&
+		git fetch --depth 1 origin 3cb3f4a22006b39e08dfda6b1dc4d01fafb2f7a5 &&
 		git checkout FETCH_HEAD
 )
 
