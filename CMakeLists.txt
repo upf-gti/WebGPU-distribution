@@ -64,6 +64,8 @@ else (EMSCRIPTEN)
 			optimized "${CMAKE_BINARY_DIR}/_deps/dawn-src/lib/dawn_static_release.lib"
 		)
 
+		set_target_properties(webgpu PROPERTIES LINK_FLAGS "/ignore:4099")
+
 	else()
 		message(FATAL_ERROR "Invalid value for DAWN_BUILD: possible values are STATIC and SRC, but '${DAWN_BUILD_U}' was provided.")
 	endif()
