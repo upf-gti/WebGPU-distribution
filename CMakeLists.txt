@@ -15,7 +15,7 @@ if (EMSCRIPTEN)
 
 	target_link_libraries(webgpu INTERFACE tint_lang_wgsl_reader)
 	target_include_directories(webgpu INTERFACE
-		"${CMAKE_CURRENT_SOURCE_DIR}/include-emscripten"
+		"${CMAKE_BINARY_DIR}/_deps/dawn-src/emdawnwebgpu/include"
 		"${CMAKE_BINARY_DIR}/_deps/tint-src/include"
 		"${CMAKE_BINARY_DIR}/_deps/tint-src"
 	)
@@ -49,12 +49,12 @@ else (EMSCRIPTEN)
 
 		FetchContent_Populate(dawn)
 
-		include(cmake/FetchTint.cmake)
+		# include(cmake/FetchTint.cmake)
 
 		# target_link_libraries(webgpu INTERFACE tint_lang_wgsl_reader)
 		target_include_directories(webgpu INTERFACE
-			"${CMAKE_BINARY_DIR}/_deps/tint-src/include"
-			"${CMAKE_BINARY_DIR}/_deps/tint-src"
+			"${CMAKE_BINARY_DIR}/_deps/dawn-src/include"
+			"${CMAKE_BINARY_DIR}/_deps/dawn-src/include/tint"
 		)
 
 		# target_link_libraries(webgpu INTERFACE dxguid.lib)
