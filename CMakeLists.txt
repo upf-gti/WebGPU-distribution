@@ -13,9 +13,19 @@ if (EMSCRIPTEN)
 
 	include(cmake/FetchTint.cmake)
 
+	message(STATUS "Downloading emdawn files...")
+
+	FetchContent_Declare(
+		emdawn
+		URL https://github.com/upf-gti/dawn/releases/download/v1.2/emdawnwebgpu.7z
+		# DOWNLOAD_DIR ${WGPU_DIR_LIBS}/dawn_static
+	)
+
+	FetchContent_Populate(emdawn)
+
 	target_link_libraries(webgpu INTERFACE tint_lang_wgsl_reader)
 	target_include_directories(webgpu INTERFACE
-		"${CMAKE_BINARY_DIR}/_deps/dawn-src/emdawnwebgpu/include"
+		"${CMAKE_BINARY_DIR}/_deps/emdawn-src/include"
 		"${CMAKE_BINARY_DIR}/_deps/tint-src/include"
 		"${CMAKE_BINARY_DIR}/_deps/tint-src"
 	)
@@ -43,7 +53,7 @@ else (EMSCRIPTEN)
 
 		FetchContent_Declare(
 			dawn
-			URL https://github.com/upf-gti/dawn/releases/download/v1.1/dawn_static.7z
+			URL https://github.com/upf-gti/dawn/releases/download/v1.2/dawn_static.7z
 			# DOWNLOAD_DIR ${WGPU_DIR_LIBS}/dawn_static
 		)
 
