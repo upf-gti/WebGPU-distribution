@@ -47,6 +47,10 @@ if (NOT dawn_POPULATED)
 	# set(USE_VULKAN ON)
 	# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
 
+	message(STATUS "use metal ${USE_METAL}")
+	message(STATUS "use vulkan ${USE_VULKAN}")
+	message(STATUS "use dx ${USE_DX12}")
+
 	set(DAWN_ENABLE_METAL ${USE_METAL})
 	set(DAWN_ENABLE_D3D12 ${USE_DX12})
 	set(DAWN_ENABLE_VULKAN ${USE_VULKAN})
@@ -88,9 +92,7 @@ set(AllDawnTargets
 	dawn_native
 	dawn_platform
 	dawn_proc
-	dawn_utils
 	dawn_wire
-	dawncpp
 	dawncpp_headers
 	emscripten_bits_gen
 	enum_string_mapping
@@ -140,7 +142,3 @@ foreach (Target ${AllGlfwTargets})
 		set_property(TARGET ${Target} PROPERTY FOLDER "External/GLFW3")
 	endif()
 endforeach()
-
-# This is likely needed for other targets as well
-# TODO: Notify this upstream (is this still needed?)
-target_include_directories(dawn_utils PUBLIC "${CMAKE_BINARY_DIR}/_deps/dawn-src/src")
