@@ -17,7 +17,7 @@ if (EMSCRIPTEN)
 
 	FetchContent_Declare(
 		emdawn
-		URL https://github.com/upf-gti/dawn/releases/download/v1.2/emdawnwebgpu.7z
+		URL https://github.com/upf-gti/dawn/releases/download/v1.3/emdawnwebgpu.7z
 		# DOWNLOAD_DIR ${WGPU_DIR_LIBS}/dawn_static
 	)
 
@@ -53,7 +53,7 @@ else (EMSCRIPTEN)
 
 		FetchContent_Declare(
 			dawn
-			URL https://github.com/upf-gti/dawn/releases/download/v1.2/dawn_static.7z
+			URL https://github.com/upf-gti/dawn/releases/download/v1.3/dawn_static.7z
 			# DOWNLOAD_DIR ${WGPU_DIR_LIBS}/dawn_static
 		)
 
@@ -67,7 +67,9 @@ else (EMSCRIPTEN)
 			"${CMAKE_BINARY_DIR}/_deps/dawn-src/include/tint"
 		)
 
-		# target_link_libraries(webgpu INTERFACE dxguid.lib)
+		if (WIN32)
+			target_link_libraries(webgpu INTERFACE dxguid.lib)
+		endif()
 
 		target_link_libraries(webgpu INTERFACE
 			debug "${CMAKE_BINARY_DIR}/_deps/dawn-src/lib/dawn_static_debug.lib"
