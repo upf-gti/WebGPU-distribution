@@ -21,10 +21,10 @@ if (EMSCRIPTEN)
 		# DOWNLOAD_DIR ${WGPU_DIR_LIBS}/dawn_static
 	)
 
-	FetchContent_Populate(emdawn)
+	FetchContent_MakeAvailable(emdawn)
 
 	target_link_libraries(webgpu INTERFACE tint_lang_wgsl_reader)
-	target_include_directories(webgpu INTERFACE
+	target_include_directories(webgpu SYSTEM INTERFACE
 		"${CMAKE_BINARY_DIR}/_deps/emdawn-src/include"
 		"${CMAKE_BINARY_DIR}/_deps/tint-src/include"
 		"${CMAKE_BINARY_DIR}/_deps/tint-src"
@@ -57,12 +57,12 @@ else (EMSCRIPTEN)
 			# DOWNLOAD_DIR ${WGPU_DIR_LIBS}/dawn_static
 		)
 
-		FetchContent_Populate(dawn)
+		FetchContent_MakeAvailable(dawn)
 
 		# include(cmake/FetchTint.cmake)
 
 		# target_link_libraries(webgpu INTERFACE tint_lang_wgsl_reader)
-		target_include_directories(webgpu INTERFACE
+		target_include_directories(webgpu SYSTEM INTERFACE
 			"${CMAKE_BINARY_DIR}/_deps/dawn-src/include"
 			"${CMAKE_BINARY_DIR}/_deps/dawn-src/include/tint"
 		)
@@ -82,7 +82,7 @@ else (EMSCRIPTEN)
 		message(FATAL_ERROR "Invalid value for DAWN_BUILD: possible values are STATIC and SRC, but '${DAWN_BUILD_U}' was provided.")
 	endif()
 
-	target_include_directories(webgpu INTERFACE
+	target_include_directories(webgpu SYSTEM INTERFACE
 		"${CMAKE_CURRENT_SOURCE_DIR}/include"
 		"${CMAKE_BINARY_DIR}/_deps/dawn-src/include"
 	)
