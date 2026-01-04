@@ -22,7 +22,7 @@ FetchContent_Declare(
 FetchContent_GetProperties(dawn)
 
 if (NOT dawn_POPULATED)
-	FetchContent_Populate(dawn)
+	FetchContent_MakeAvailable(dawn)
 
 	set(DAWN_FETCH_DEPENDENCIES ON)
 
@@ -47,9 +47,13 @@ if (NOT dawn_POPULATED)
 	# set(USE_VULKAN ON)
 	# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
 
-	message(STATUS "use metal ${USE_METAL}")
-	message(STATUS "use vulkan ${USE_VULKAN}")
-	message(STATUS "use dx ${USE_DX12}")
+	message(STATUS "Dawn use Metal ${USE_METAL}")
+	message(STATUS "Dawn use Vulkan ${USE_VULKAN}")
+	message(STATUS "Dawn use DX12 ${USE_DX12}")
+
+	# Build Dawn as static library
+	set(DAWN_BUILD_MONOLITHIC_LIBRARY STATIC)
+	set(BUILD_SHARED_LIBS OFF)
 
 	set(DAWN_ENABLE_METAL ${USE_METAL})
 	set(DAWN_ENABLE_D3D12 ${USE_DX12})
@@ -59,6 +63,17 @@ if (NOT dawn_POPULATED)
 	set(DAWN_ENABLE_NULL OFF)
 	set(DAWN_ENABLE_DESKTOP_GL OFF)
 	set(DAWN_ENABLE_OPENGLES OFF)
+
+	if (WGPU_USE_X11)
+		set(DAWN_USE_WAYLAND OFF)
+		set(DAWN_USE_X11 ON)
+	elseif (WGPU_USE_WAYLAND)
+		set(DAWN_USE_X11 OFF)
+		set(DAWN_USE_WAYLAND ON)
+	endif()
+
+	message(STATUS "Dawn use X11 ${DAWN_USE_X11}")
+	message(STATUS "Dawn use Wayland ${DAWN_USE_WAYLAND}")
 
 	set(DAWN_USE_GLFW OFF)
 

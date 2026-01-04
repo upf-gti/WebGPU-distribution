@@ -83,7 +83,6 @@ else (EMSCRIPTEN)
 	endif()
 
 	target_include_directories(webgpu SYSTEM INTERFACE
-		"${CMAKE_CURRENT_SOURCE_DIR}/include"
 		"${CMAKE_BINARY_DIR}/_deps/dawn-src/include"
 	)
 
