@@ -15,84 +15,79 @@ FetchContent_Declare(
 	DOWNLOAD_COMMAND
 		cd ${FETCHCONTENT_BASE_DIR}/dawn-src &&
 		git init &&
-		git pull --depth=1 https://github.com/upf-gti/dawn openxr-dev &&
+		git pull --depth=1 https://github.com/upf-gti/dawn &&
 		git reset --hard FETCH_HEAD
 )
 
 FetchContent_GetProperties(dawn)
 
-if (NOT dawn_POPULATED)
-	set(DAWN_FETCH_DEPENDENCIES ON)
+set(DAWN_FETCH_DEPENDENCIES ON)
 
-	set(USE_METAL  OFF)
-	set(USE_VULKAN OFF)
-	set(USE_DX12   OFF)
+set(USE_METAL  OFF)
+set(USE_VULKAN OFF)
+set(USE_DX12   OFF)
 
-	if (APPLE)
-		set(USE_METAL ON)
-	elseif (WIN32)
-		set(USE_DX12 ON)
-		# target_compile_definitions(webgpu INTERFACE BACKEND_DX12)
-		set(TINT_BUILD_HLSL_WRITER ON)
+if (APPLE)
+	set(USE_METAL ON)
+elseif (WIN32)
+	set(USE_DX12 ON)
+	# target_compile_definitions(webgpu INTERFACE BACKEND_DX12)
+	set(TINT_BUILD_HLSL_WRITER ON)
 
-		set(USE_VULKAN ON)
-		# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
-	else()
-		set(USE_VULKAN ON)
-		# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
-	endif()
+	set(USE_VULKAN ON)
+	# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
+else()
+	set(USE_VULKAN ON)
+	# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
+endif()
 
-	message(STATUS "Dawn use Metal ${USE_METAL}")
-	message(STATUS "Dawn use Vulkan ${USE_VULKAN}")
-	message(STATUS "Dawn use DX12 ${USE_DX12}")
+message(STATUS "Dawn use Metal ${USE_METAL}")
+message(STATUS "Dawn use Vulkan ${USE_VULKAN}")
+message(STATUS "Dawn use DX12 ${USE_DX12}")
 
-	# Build Dawn as static library
-	set(DAWN_BUILD_MONOLITHIC_LIBRARY STATIC)
-	set(BUILD_SHARED_LIBS OFF)
+# Build Dawn as static library
+set(DAWN_BUILD_MONOLITHIC_LIBRARY STATIC)
+set(BUILD_SHARED_LIBS OFF)
 
-	set(DAWN_ENABLE_METAL ${USE_METAL})
-	set(DAWN_ENABLE_D3D12 ${USE_DX12})
-	set(DAWN_ENABLE_VULKAN ${USE_VULKAN})
+set(DAWN_ENABLE_METAL ${USE_METAL})
+set(DAWN_ENABLE_D3D12 ${USE_DX12})
+set(DAWN_ENABLE_VULKAN ${USE_VULKAN})
 
-	if (WGPU_USE_X11)
-		set(DAWN_USE_WAYLAND OFF)
-		set(DAWN_USE_X11 ON)
-	elseif (WGPU_USE_WAYLAND)
-		set(DAWN_USE_X11 OFF)
-		set(DAWN_USE_WAYLAND ON)
-	endif()
+if (WGPU_USE_X11)
+	set(DAWN_USE_WAYLAND OFF)
+	set(DAWN_USE_X11 ON)
+elseif (WGPU_USE_WAYLAND)
+	set(DAWN_USE_X11 OFF)
+	set(DAWN_USE_WAYLAND ON)
+endif()
 
-	message(STATUS "Dawn use X11 ${DAWN_USE_X11}")
-	message(STATUS "Dawn use Wayland ${DAWN_USE_WAYLAND}")
+# Used for reflection
+set(TINT_BUILD_TINT ON)
 
-	# Used for reflection
-	set(TINT_BUILD_TINT ON)
+# Disable unneeded parts
+set(DAWN_BUILD_SAMPLES OFF)
+set(DAWN_ENABLE_SPIRV_VALIDATION OFF)
+set(DAWN_USE_GLFW OFF)
+set(DAWN_ENABLE_D3D11 OFF)
+set(DAWN_ENABLE_NULL OFF)
+set(DAWN_ENABLE_DESKTOP_GL OFF)
+set(DAWN_ENABLE_OPENGLES OFF)
 
-	# Disable unneeded parts
-	set(DAWN_BUILD_SAMPLES OFF)
-	set(DAWN_ENABLE_SPIRV_VALIDATION OFF)
-	set(DAWN_USE_GLFW OFF)
-	set(DAWN_ENABLE_D3D11 OFF)
-	set(DAWN_ENABLE_NULL OFF)
-	set(DAWN_ENABLE_DESKTOP_GL OFF)
-	set(DAWN_ENABLE_OPENGLES OFF)
+set(TINT_BUILD_SAMPLES OFF)
+set(TINT_BUILD_DOCS OFF)
+set(TINT_BUILD_TESTS OFF)
+set(TINT_BUILD_FUZZERS OFF)
+set(TINT_BUILD_SPIRV_TOOLS_FUZZER OFF)
+set(TINT_BUILD_AST_FUZZER OFF)
+set(TINT_BUILD_REGEX_FUZZER OFF)
+set(TINT_BUILD_BENCHMARKS OFF)
+set(TINT_BUILD_TESTS OFF)
+set(TINT_BUILD_AS_OTHER_OS OFF)
+set(TINT_BUILD_REMOTE_COMPILE OFF)
+set(TINT_BUILD_CMD_TOOLS OFF)
+set(TINT_BUILD_IR_BINARY OFF)
 
-	set(TINT_BUILD_SAMPLES OFF)
-	set(TINT_BUILD_DOCS OFF)
-	set(TINT_BUILD_TESTS OFF)
-	set(TINT_BUILD_FUZZERS OFF)
-	set(TINT_BUILD_SPIRV_TOOLS_FUZZER OFF)
-	set(TINT_BUILD_AST_FUZZER OFF)
-	set(TINT_BUILD_REGEX_FUZZER OFF)
-	set(TINT_BUILD_BENCHMARKS OFF)
-	set(TINT_BUILD_TESTS OFF)
-	set(TINT_BUILD_AS_OTHER_OS OFF)
-	set(TINT_BUILD_REMOTE_COMPILE OFF)
-	set(TINT_BUILD_CMD_TOOLS OFF)
-	set(TINT_BUILD_IR_BINARY OFF)
-
-	FetchContent_MakeAvailable(dawn)
-endif ()
+FetchContent_MakeAvailable(dawn)
 
 set(AllDawnTargets
 	core_tables
