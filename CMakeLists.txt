@@ -53,7 +53,7 @@ else (EMSCRIPTEN)
 
 		FetchContent_Declare(
 			dawn
-			URL https://github.com/upf-gti/dawn/releases/download/v1.4/dawn_static.7z
+			URL https://github.com/upf-gti/dawn/releases/download/v1.5/dawn_static.7z
 			# DOWNLOAD_DIR ${WGPU_DIR_LIBS}/dawn_static
 		)
 
@@ -72,8 +72,8 @@ else (EMSCRIPTEN)
 		endif()
 
 		target_link_libraries(webgpu INTERFACE
-			debug "${CMAKE_BINARY_DIR}/_deps/dawn-src/lib/dawn_static_debug.lib"
-			optimized "${CMAKE_BINARY_DIR}/_deps/dawn-src/lib/dawn_static_release.lib"
+			debug "${CMAKE_BINARY_DIR}/_deps/dawn-src/lib/webgpu_dawn_debug.lib"
+			optimized "${CMAKE_BINARY_DIR}/_deps/dawn-src/lib/webgpu_dawn_release.lib"
 		)
 
 		set_target_properties(webgpu PROPERTIES LINK_FLAGS "/ignore:4099")
