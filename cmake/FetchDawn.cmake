@@ -1,17 +1,14 @@
-# Prevent multiple includes
-if (TARGET dawn_native)
-	return()
-endif()
 
 include(FetchContent)
 
+if (EMSCRIPTEN)
+	set(ESMCRIPTEN_EXCLUDE_DAWN EXCLUDE_FROM_ALL)
+endif()
+
 FetchContent_Declare(
 	dawn
-	#GIT_REPOSITORY https://dawn.googlesource.com/dawn
-	#GIT_TAG        chromium/5715
-	#GIT_SHALLOW ON
+	${ESMCRIPTEN_EXCLUDE_DAWN}
 
-	# Manual download mode, even shallower than GIT_SHALLOW ON
 	DOWNLOAD_COMMAND
 		cd ${FETCHCONTENT_BASE_DIR}/dawn-src &&
 		git init &&
@@ -19,39 +16,35 @@ FetchContent_Declare(
 		git reset --hard FETCH_HEAD
 )
 
-FetchContent_GetProperties(dawn)
-
 set(DAWN_FETCH_DEPENDENCIES ON)
 
 set(USE_METAL  OFF)
 set(USE_VULKAN OFF)
 set(USE_DX12   OFF)
 
-if (APPLE)
-	set(USE_METAL ON)
-elseif (WIN32)
-	set(USE_DX12 ON)
-	# target_compile_definitions(webgpu INTERFACE BACKEND_DX12)
-	set(TINT_BUILD_HLSL_WRITER ON)
+if (NOT EMSCRIPTEN)
+	if (APPLE)
+		set(USE_METAL ON)
+	elseif (WIN32)
+		set(USE_DX12 ON)
+		# target_compile_definitions(webgpu INTERFACE BACKEND_DX12)
+		set(TINT_BUILD_HLSL_WRITER ON)
 
-	set(USE_VULKAN ON)
-	# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
-else()
-	set(USE_VULKAN ON)
-	# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
+		set(USE_VULKAN ON)
+		# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
+	else()
+		set(USE_VULKAN ON)
+		# target_compile_definitions(webgpu INTERFACE BACKEND_VULKAN)
+	endif()
+
+	message(STATUS "Dawn use Metal ${USE_METAL}")
+	message(STATUS "Dawn use Vulkan ${USE_VULKAN}")
+	message(STATUS "Dawn use DX12 ${USE_DX12}")
+
+	# Build Dawn as static library
+	set(DAWN_BUILD_MONOLITHIC_LIBRARY STATIC)
+	set(BUILD_SHARED_LIBS OFF)
 endif()
-
-message(STATUS "Dawn use Metal ${USE_METAL}")
-message(STATUS "Dawn use Vulkan ${USE_VULKAN}")
-message(STATUS "Dawn use DX12 ${USE_DX12}")
-
-# Build Dawn as static library
-set(DAWN_BUILD_MONOLITHIC_LIBRARY STATIC)
-set(BUILD_SHARED_LIBS OFF)
-
-set(DAWN_ENABLE_METAL ${USE_METAL})
-set(DAWN_ENABLE_D3D12 ${USE_DX12})
-set(DAWN_ENABLE_VULKAN ${USE_VULKAN})
 
 if (WGPU_USE_X11)
 	set(DAWN_USE_WAYLAND OFF)

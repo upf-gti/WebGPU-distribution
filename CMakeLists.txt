@@ -9,26 +9,12 @@ endif()
 
 if (EMSCRIPTEN)
 
-	message(STATUS "Downloading Tint...")
+	message(STATUS "Downloading Dawn source...")
 
-	include(cmake/FetchTint.cmake)
+	include(cmake/FetchDawn.cmake)
 
-	message(STATUS "Downloading emdawn files...")
-
-	FetchContent_Declare(
-		emdawn
-		URL https://github.com/upf-gti/dawn/releases/download/v1.4/emdawnwebgpu.7z
-		# DOWNLOAD_DIR ${WGPU_DIR_LIBS}/dawn_static
-	)
-
-	FetchContent_MakeAvailable(emdawn)
-
-	target_link_libraries(webgpu INTERFACE tint_lang_wgsl_reader)
-	target_include_directories(webgpu SYSTEM INTERFACE
-		"${CMAKE_BINARY_DIR}/_deps/emdawn-src/include"
-		"${CMAKE_BINARY_DIR}/_deps/tint-src/include"
-		"${CMAKE_BINARY_DIR}/_deps/tint-src"
-	)
+	target_link_libraries(webgpu INTERFACE emdawnwebgpu_c)
+	target_link_libraries(webgpu INTERFACE tint_lang_wgsl_reader tint_lang_wgsl_inspector)
 
 	# This is used to advertise the flavor of WebGPU that this zip provides
 	target_compile_definitions(webgpu INTERFACE WEBGPU_BACKEND_EMSCRIPTEN)
