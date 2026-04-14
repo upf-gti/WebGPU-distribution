@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.22)
 project(webgpu-backend-dawn VERSION 1.0.0)
 
 add_library(webgpu INTERFACE)
@@ -12,6 +12,10 @@ if (EMSCRIPTEN)
 	message(STATUS "Downloading Dawn source...")
 
 	include(cmake/FetchDawn.cmake)
+
+	# TODO: this is a hack, emdawnwebgpu_c is including files before they are generated
+	# create a dummy file until it's overwritten
+	file(WRITE ${CMAKE_BINARY_DIR}/_deps/dawn-build/gen/src/emdawnwebgpu/include/webgpu/webgpu.h "")
 
 	target_link_libraries(webgpu INTERFACE emdawnwebgpu_c)
 	target_link_libraries(webgpu INTERFACE tint_lang_wgsl_reader tint_lang_wgsl_inspector)
@@ -45,8 +49,6 @@ else (EMSCRIPTEN)
 
 		FetchContent_MakeAvailable(dawn)
 
-		# include(cmake/FetchTint.cmake)
-
 		# target_link_libraries(webgpu INTERFACE tint_lang_wgsl_reader)
 		target_include_directories(webgpu SYSTEM INTERFACE
 			"${CMAKE_BINARY_DIR}/_deps/dawn-src/include"
@@ -77,6 +79,3 @@ else (EMSCRIPTEN)
 
 endif (EMSCRIPTEN)
 
-# Does nothing, as this dawn-based distribution of WebGPU is statically linked
-function(target_copy_webgpu_binaries Target)
-endfunction()

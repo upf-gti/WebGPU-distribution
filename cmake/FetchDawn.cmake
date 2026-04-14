@@ -18,6 +18,10 @@ FetchContent_Declare(
 
 set(DAWN_FETCH_DEPENDENCIES ON)
 
+# Build Dawn as static library
+set(DAWN_BUILD_MONOLITHIC_LIBRARY STATIC)
+set(BUILD_SHARED_LIBS OFF)
+
 set(USE_METAL  OFF)
 set(USE_VULKAN OFF)
 set(USE_DX12   OFF)
@@ -40,10 +44,6 @@ if (NOT EMSCRIPTEN)
 	message(STATUS "Dawn use Metal ${USE_METAL}")
 	message(STATUS "Dawn use Vulkan ${USE_VULKAN}")
 	message(STATUS "Dawn use DX12 ${USE_DX12}")
-
-	# Build Dawn as static library
-	set(DAWN_BUILD_MONOLITHIC_LIBRARY STATIC)
-	set(BUILD_SHARED_LIBS OFF)
 endif()
 
 if (WGPU_USE_X11)
@@ -57,8 +57,12 @@ endif()
 # Used for reflection
 set(TINT_BUILD_TINT ON)
 
+# Needed for d3dcompiler_47.dll and vulkan-1.dll
+set(DAWN_FORCE_SYSTEM_COMPONENT_LOAD ON)
+
 # Disable unneeded parts
 set(DAWN_BUILD_SAMPLES OFF)
+set(DAWN_BUILD_TESTS OFF)
 set(DAWN_ENABLE_SPIRV_VALIDATION OFF)
 set(DAWN_USE_GLFW OFF)
 set(DAWN_ENABLE_D3D11 OFF)
@@ -74,11 +78,13 @@ set(TINT_BUILD_SPIRV_TOOLS_FUZZER OFF)
 set(TINT_BUILD_AST_FUZZER OFF)
 set(TINT_BUILD_REGEX_FUZZER OFF)
 set(TINT_BUILD_BENCHMARKS OFF)
+set(TINT_BUILD_GLSL_VALIDATOR OFF)
 set(TINT_BUILD_TESTS OFF)
 set(TINT_BUILD_AS_OTHER_OS OFF)
 set(TINT_BUILD_REMOTE_COMPILE OFF)
 set(TINT_BUILD_CMD_TOOLS OFF)
 set(TINT_BUILD_IR_BINARY OFF)
+set(TINT_ENABLE_IR_VALIDATION OFF)
 
 FetchContent_MakeAvailable(dawn)
 
