@@ -43,7 +43,7 @@ else (EMSCRIPTEN)
 
 		FetchContent_Declare(
 			dawn
-			URL https://github.com/upf-gti/dawn/releases/download/v1.5/dawn_static.7z
+			URL https://github.com/upf-gti/dawn/releases/download/v1.6/dawn_static.7z
 			# DOWNLOAD_DIR ${WGPU_DIR_LIBS}/dawn_static
 		)
 
