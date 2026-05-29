@@ -15,6 +15,7 @@ if (EMSCRIPTEN)
 
 	# TODO: this is a hack, emdawnwebgpu_c is including files before they are generated
 	# create a dummy file until it's overwritten
+	file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/_deps/dawn-build/gen/src/emdawnwebgpu/include/webgpu/)
 	file(TOUCH ${CMAKE_BINARY_DIR}/_deps/dawn-build/gen/src/emdawnwebgpu/include/webgpu/webgpu.h "")
 
 	target_link_libraries(webgpu INTERFACE emdawnwebgpu_c)
